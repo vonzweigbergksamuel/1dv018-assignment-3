@@ -1,22 +1,15 @@
-import random
 from pathlib import Path
 
-from utils.quick_sort import QuickSort
 from tasks.task1 import PATTERN_RUNS, benchmark_pattern, plot_quick_vs_heap
+from tasks.task2 import demo_graphs
 
 
 def main():
-    # list = []
-    # for _ in range(100):
-    #     list.append(random.randint(0, 1000))
+    print("Running Graph Demonstrations...")
+    demo_graphs()
 
-    # print("Unsorted list", list)
-
-    # quick_sort = QuickSort()
-    # quick_sort.sort(list)
-
-    # print("Sorted function calls", quick_sort.count)
-    # print("Sorted list", list)
+    print("\n" + "=" * 60)
+    print("Running Sorting Algorithm Benchmarks...")
 
     sizes = [
         1_000,
