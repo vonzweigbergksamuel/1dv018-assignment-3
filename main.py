@@ -2,11 +2,16 @@ from pathlib import Path
 
 from tasks.task1 import PATTERN_RUNS, benchmark_pattern, plot_quick_vs_heap
 from tasks.task2 import demo_graphs
+from tasks.task3 import demo_search_algorithms
 
 
 def main():
     print("Running Graph Demonstrations...")
     demo_graphs()
+
+    print("\n" + "=" * 60)
+    print("Running Search Algorithm Demonstrations...")
+    demo_search_algorithms()
 
     print("\n" + "=" * 60)
     print("Running Sorting Algorithm Benchmarks...")

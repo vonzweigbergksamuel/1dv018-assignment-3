@@ -7,4 +7,4 @@ class DFS(Search):
         for neighbor in self.graph.neighbors(node):
             if not self.marked.get(neighbor, False):
                 self.edge_to[neighbor] = node
-                self._dfs(neighbor)
+                self._search(neighbor)
