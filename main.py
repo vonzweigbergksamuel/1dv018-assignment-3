@@ -3,6 +3,7 @@ from pathlib import Path
 from tasks.task1 import PATTERN_RUNS, benchmark_pattern, plot_quick_vs_heap
 from tasks.task2 import demo_graphs
 from tasks.task3 import demo_search_algorithms
+from tasks.task4 import demo_dijkstras_algorithms
 
 
 def main():
@@ -12,6 +13,10 @@ def main():
     print("\n" + "=" * 60)
     print("Running Search Algorithm Demonstrations...")
     demo_search_algorithms()
+
+    print("\n" + "=" * 60)
+    print("Running Dijkstra's Algorithm Demonstrations...")
+    demo_dijkstras_algorithms()
 
     print("\n" + "=" * 60)
     print("Running Sorting Algorithm Benchmarks...")
