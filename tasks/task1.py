@@ -7,7 +7,7 @@ from typing import List, Sequence
 import matplotlib.pyplot as plt
 
 from utils.heap_sort import HeapSort
-from utils.quick_sort import QuickSort
+from utils.quick_sort import QuickSort, FirstElementPivotQuickSort
 
 
 IMAGES_DIR = Path(__file__).resolve().parent.parent / "images"
@@ -16,26 +16,7 @@ PATTERN_RUNS = {
     "sorted": 3,
     "reverse": 3,
     "duplicates": 5,
-    "quick_worst": 3,
 }
-
-
-def _generate_quick_worst_case(size: int) -> List[int]:
-    result = [0] * size
-    next_value = 0
-
-    def fill(low: int, high: int) -> None:
-        nonlocal next_value
-        if low > high:
-            return
-        mid = (low + high) // 2
-        result[mid] = next_value
-        next_value += 1
-        fill(low, mid - 1)
-        fill(mid + 1, high)
-
-    fill(0, size - 1)
-    return result
 
 
 def _generate_sample(size: int, pattern: str) -> List[int]:
@@ -48,8 +29,6 @@ def _generate_sample(size: int, pattern: str) -> List[int]:
     if pattern == "duplicates":
         bucket = max(1, size // 10)
         return [random.randrange(bucket) for _ in range(size)]
-    if pattern == "quick_worst":
-        return _generate_quick_worst_case(size)
     raise ValueError(f"Unknown pattern: {pattern}")
 
 
@@ -69,30 +48,49 @@ def _time_heap_sort(values: List[int]) -> float:
     return time.perf_counter() - start
 
 
-def _average_times(size: int, runs: int, pattern: str) -> tuple[float, float]:
+def _time_first_element_pivot_quick_sort(values: List[int]) -> float:
+    sorter = FirstElementPivotQuickSort()
+    sample = values.copy()
+    start = time.perf_counter()
+    try:
+        sorter.sort(sample)
+    except RecursionError:
+        return float("inf")
+    return time.perf_counter() - start
+
+
+def _average_times_three_ways(
+    size: int, runs: int, pattern: str
+) -> tuple[float, float, float]:
     quick_results = []
     heap_results = []
+    first_pivot_results = []
 
     for _ in range(runs):
         sample = _generate_sample(size, pattern)
         quick_results.append(_time_quick_sort(sample))
         heap_results.append(_time_heap_sort(sample))
+        first_pivot_results.append(_time_first_element_pivot_quick_sort(sample))
 
-    return mean(quick_results), mean(heap_results)
+    return mean(quick_results), mean(heap_results), mean(first_pivot_results)
 
 
 def benchmark_pattern(
     sizes: Sequence[int], runs: int, pattern: str
-) -> tuple[List[float], List[float]]:
+) -> tuple[List[float], List[float], List[float]]:
     quick_times = []
     heap_times = []
+    first_pivot_times = []
 
     for size in sizes:
-        quick_avg, heap_avg = _average_times(size, runs, pattern)
+        quick_avg, heap_avg, first_pivot_avg = _average_times_three_ways(
+            size, runs, pattern
+        )
         quick_times.append(quick_avg)
         heap_times.append(heap_avg)
+        first_pivot_times.append(first_pivot_avg)
 
-    return quick_times, heap_times
+    return quick_times, heap_times, first_pivot_times
 
 
 def plot_quick_vs_heap(
@@ -104,8 +102,9 @@ def plot_quick_vs_heap(
 ) -> Path:
     quick_times: List[float]
     heap_times: List[float]
+    first_pivot_times: List[float]
 
-    quick_times, heap_times = benchmark_pattern(sizes, runs, pattern)
+    quick_times, heap_times, first_pivot_times = benchmark_pattern(sizes, runs, pattern)
 
     differences = [abs(q - h) for q, h in zip(quick_times, heap_times)]
     crossover_index = differences.index(min(differences))
@@ -114,6 +113,23 @@ def plot_quick_vs_heap(
     plt.figure(figsize=(10, 6))
     plt.plot(sizes, quick_times, marker="o", label="QuickSort")
     plt.plot(sizes, heap_times, marker="s", label="HeapSort")
+
+    # Cap infinite values for first pivot times for better visualization
+    display_first_pivot = []
+    for i, t in enumerate(first_pivot_times):
+        if t == float("inf"):
+            # Cap at 1.5x the max of the other two at this size
+            display_first_pivot.append(max(quick_times[i], heap_times[i]) * 1.5)
+        else:
+            display_first_pivot.append(t)
+
+    plt.plot(
+        sizes,
+        display_first_pivot,
+        marker="^",
+        label="QuickSort (First Element Pivot)",
+        color="red",
+    )
     plt.axvline(crossover_size, color="gray", linestyle="--", alpha=0.4)
     plt.text(
         crossover_size,
