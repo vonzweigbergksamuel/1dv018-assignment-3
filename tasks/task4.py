@@ -3,9 +3,8 @@ from utils.dijkstras import Dijkstras
 
 
 def demo_dijkstras_basic():
-    print("\n=== Dijkstra's Algorithm Demo ===")
+    print("\n=== Dijkstra's Algorithm: Single Source ===")
 
-    # Create directed graph with weighted edges
     graph = DirectedGraph()
     edges = [
         (0, 1, 5),
@@ -29,13 +28,11 @@ def demo_dijkstras_basic():
     for u, v, weight in edges:
         graph.add_edge(u, v, weight)
 
-    print(f"Graph created with {graph.num_nodes()} nodes and {graph.num_edges()} edges")
-    print("Sample edges: 0->1(5), 0->3(8), 1->3(4), etc.")
-
-    print("\nRunning Dijkstra's from node 0:")
+    print(f"Graph: {graph.num_nodes()} nodes, {graph.num_edges()} edges")
+    print("Running Dijkstra's algorithm from node 0:\n")
     dijkstra = Dijkstras(graph, 0)
 
-    print("\nShortest distances from node 0:")
+    print("Shortest distances from node 0 to all nodes:")
     for node in sorted(dijkstra.dist.keys()):
         dist = dijkstra.dist[node]
         if dist == float("inf"):
@@ -43,18 +40,9 @@ def demo_dijkstras_basic():
         else:
             print(f"  Node {node}: {dist}")
 
-    print("\nShortest paths:")
-    target_nodes = [7, 4, 5]
-    for target in target_nodes:
-        if dijkstra.dist[target] != float("inf"):
-            path = _reconstruct_path(dijkstra, 0, target)
-            print(
-                f"  0 -> {target}: {' -> '.join(map(str, path))} (cost: {dijkstra.dist[target]})"
-            )
-
 
 def demo_dijkstras_multiple_sources():
-    print("\n=== Dijkstra's from Different Sources ===")
+    print("\n=== Dijkstra's Algorithm: Multiple Sources ===")
 
     graph = DirectedGraph()
     edges = [
@@ -79,23 +67,20 @@ def demo_dijkstras_multiple_sources():
     for u, v, weight in edges:
         graph.add_edge(u, v, weight)
 
-    sources = [0, 3, 6]
-    target = 7
-
-    print(f"Finding shortest paths to node {target} from different sources:")
-    for source in sources:
+    print("Finding shortest paths to node 7 from different starting points:\n")
+    for source in [0, 3, 6]:
         dijkstra = Dijkstras(graph, source)
-        if dijkstra.dist[target] != float("inf"):
-            path = _reconstruct_path(dijkstra, source, target)
+        if dijkstra.dist[7] != float("inf"):
+            path = _reconstruct_path(dijkstra, source, 7)
             print(
-                f"  From {source}: {' -> '.join(map(str, path))} (cost: {dijkstra.dist[target]})"
+                f"From {source}: {' → '.join(map(str, path))} (cost: {dijkstra.dist[7]})"
             )
         else:
-            print(f"  From {source}: unreachable")
+            print(f"From {source}: unreachable")
 
 
 def demo_dijkstras_all_pairs():
-    print("\n=== Dijkstra's All Shortest Paths ===")
+    print("\n=== Dijkstra's Algorithm: All Shortest Paths ===")
 
     graph = DirectedGraph()
     edges = [
@@ -120,34 +105,24 @@ def demo_dijkstras_all_pairs():
     for u, v, weight in edges:
         graph.add_edge(u, v, weight)
 
-    print("Distance matrix (distances from each node):")
-    all_distances = {}
-
+    print("Shortest distances from all nodes to node 7:\n")
     for source in sorted(graph._adjacency.keys()):
         dijkstra = Dijkstras(graph, source)
-        all_distances[source] = dijkstra.dist
-
-    # Show distances to node 7 from all sources
-    print("Distances to node 7 from all nodes:")
-    for source in sorted(all_distances.keys()):
-        dist = all_distances[source][7]
+        dist = dijkstra.dist[7]
         if dist == float("inf"):
-            print(f"  From {source}: ∞ (unreachable)")
+            print(f"From {source}: ∞ (unreachable)")
         else:
-            print(f"  From {source}: {dist}")
+            print(f"From {source}: {dist}")
 
 
 def _reconstruct_path(dijkstra, start, end):
-    """Reconstruct path from start to end using prev pointers."""
     path = []
     current = end
-
     while current is not None:
         path.append(current)
         current = dijkstra.prev[current]
-
     path.reverse()
-    return path if path[0] == start else []
+    return path if path and path[0] == start else []
 
 
 def demo_dijkstras_algorithms():
