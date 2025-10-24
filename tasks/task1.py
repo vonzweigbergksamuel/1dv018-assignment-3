@@ -114,11 +114,9 @@ def plot_quick_vs_heap(
     plt.plot(sizes, quick_times, marker="o", label="QuickSort")
     plt.plot(sizes, heap_times, marker="s", label="HeapSort")
 
-    # Cap infinite values for first pivot times for better visualization
     display_first_pivot = []
     for i, t in enumerate(first_pivot_times):
         if t == float("inf"):
-            # Cap at 1.5x the max of the other two at this size
             display_first_pivot.append(max(quick_times[i], heap_times[i]) * 1.5)
         else:
             display_first_pivot.append(t)

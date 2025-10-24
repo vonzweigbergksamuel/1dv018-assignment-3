@@ -3,7 +3,7 @@ from utils.dijkstras import Dijkstras
 
 
 def demo_dijkstras_basic():
-    print("\n=== Dijkstra's Algorithm: Single Source ===")
+    print("\n___ Dijkstra's Algorithm: Single Source ___")
 
     graph = DirectedGraph()
     edges = [
@@ -42,7 +42,7 @@ def demo_dijkstras_basic():
 
 
 def demo_dijkstras_multiple_sources():
-    print("\n=== Dijkstra's Algorithm: Multiple Sources ===")
+    print("\n___ Dijkstra's Algorithm: Multiple Sources ___")
 
     graph = DirectedGraph()
     edges = [
@@ -80,7 +80,7 @@ def demo_dijkstras_multiple_sources():
 
 
 def demo_dijkstras_all_pairs():
-    print("\n=== Dijkstra's Algorithm: All Shortest Paths ===")
+    print("\n___ Dijkstra's Algorithm: All Shortest Paths ___")
 
     graph = DirectedGraph()
     edges = [

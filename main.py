@@ -10,15 +10,15 @@ def main():
     print("Running Graph Demonstrations...")
     demo_graphs()
 
-    print("\n" + "=" * 60)
+    print("\n" + "-" * 60)
     print("Running Search Algorithm Demonstrations...")
     demo_search_algorithms()
 
-    print("\n" + "=" * 60)
+    print("\n" + "-" * 60)
     print("Running Dijkstra's Algorithm Demonstrations...")
     demo_dijkstras_algorithms()
 
-    print("\n" + "=" * 60)
+    print("\n" + "-" * 60)
     print("Running Sorting Algorithm Benchmarks...")
 
     sizes = [

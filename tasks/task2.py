@@ -3,7 +3,7 @@ from utils.undirected_graph import UndirectedGraph
 
 
 def demo_undirected_graph():
-    print("\n=== Undirected Graph ===")
+    print("\n___ Undirected Graph ___")
     graph = UndirectedGraph()
 
     nodes = ["A", "B", "C", "D"]
@@ -23,7 +23,7 @@ def demo_undirected_graph():
 
 
 def demo_directed_graph():
-    print("\n=== Directed Graph ===")
+    print("\n___ Directed Graph ___")
     graph = DirectedGraph()
 
     nodes = ["X", "Y", "Z", "W"]
@@ -49,7 +49,7 @@ def demo_directed_graph():
 
 
 def demo_graph_comparison():
-    print("\n=== Comparing Graph Types ===")
+    print("\n___ Comparing Graph Types ___")
 
     undirected = UndirectedGraph()
     directed = DirectedGraph()

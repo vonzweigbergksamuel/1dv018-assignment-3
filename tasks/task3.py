@@ -5,7 +5,7 @@ from utils.breadth_first_search import BFS
 
 
 def demo_dfs_search():
-    print("\n=== Depth-First Search ===")
+    print("\n___ Depth-First Search ___")
 
     graph = UndirectedGraph()
     nodes = ["A", "B", "C", "D", "E", "F"]
@@ -37,7 +37,7 @@ def demo_dfs_search():
 
 
 def demo_bfs_search():
-    print("\n=== Breadth-First Search ===")
+    print("\n___ Breadth-First Search ___")
 
     graph = UndirectedGraph()
     nodes = ["X", "Y", "Z", "W", "V", "U"]
@@ -69,7 +69,7 @@ def demo_bfs_search():
 
 
 def demo_dfs_vs_bfs():
-    print("\n=== DFS vs BFS Comparison ===")
+    print("\n___ DFS vs BFS Comparison ___")
 
     graph = UndirectedGraph()
     nodes = ["Start", "A", "B", "C", "D", "E", "F", "G", "H", "Goal"]
@@ -107,16 +107,16 @@ def demo_dfs_vs_bfs():
     if dfs.has_path_to("Goal"):
         dfs_path = list(dfs.path_to("Goal"))
         print(f"DFS: {' → '.join(dfs_path)}")
-        print(f"     (explores deeply: Start→A→C→G or Start→A→D→G, etc.)")
+        print("(explores deeply: Start→A→C→G or Start→A→D→G, etc.)")
 
     if bfs.has_path_to("Goal"):
         bfs_path = list(bfs.path_to("Goal"))
         print(f"BFS: {' → '.join(bfs_path)}")
-        print(f"     (explores level-by-level: Start→A→C→G or Start→B→E→H, etc.)")
+        print("(explores level-by-level: Start→A→C→G or Start→B→E→H, etc.)")
 
 
 def demo_directed_graph_search():
-    print("\n=== Search in Directed Graphs ===")
+    print("\n___ Search in Directed Graphs ___")
 
     graph = DirectedGraph()
     nodes = ["Source", "A", "B", "C", "D", "E", "Target", "Dead", "End"]
